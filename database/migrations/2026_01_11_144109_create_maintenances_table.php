@@ -16,6 +16,7 @@ return new class extends Migration {
                 ->foreignId("resource_id")
                 ->constrained()
                 ->onDelete("cascade");
+            $table->foreignId("user_id")->constrained(); // Manager/Admin who created it
             $table->dateTime("start_date");
             $table->dateTime("end_date");
             $table->text("description");

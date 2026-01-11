@@ -24,12 +24,34 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            "name" => fake()->name(),
+            "email" => fake()->unique()->safeEmail(),
+            "password" => (static::$password ??= Hash::make("password")),
+            "profession" => fake()->jobTitle(),
+            "role" => "User",
+            "is_active" => fake()->boolean(99), // 1% chance of being disabled
+            "remember_token" => Str::random(10),
         ];
+    }
+
+    public function admin(): static
+    {
+        return $this->state(
+            fn(array $attributes) => [
+                "role" => "Admin",
+                "is_active" => true, // Admins should always be active
+            ],
+        );
+    }
+
+    public function manager(): static
+    {
+        return $this->state(
+            fn(array $attributes) => [
+                "role" => "Manager",
+                "is_active" => true, // Managers should always be active
+            ],
+        );
     }
 
     /**
@@ -37,8 +59,10 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
+        return $this->state(
+            fn(array $attributes) => [
+                "email_verified_at" => null,
+            ],
+        );
     }
 }
