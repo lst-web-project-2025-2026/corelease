@@ -6,19 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Resource extends Model
 {
-    protected $fillable = [
-        'category_id',
-        'manager_id',
-        'name',
-        'model_number',
-        'serial_number',
-        'specs',
-        'location',
-        'status'
+    protected $fillable = ["name", "category", "specs", "status"];
+
+    protected $casts = [
+        "specs" => "array", // Automatically handles JSON conversion
     ];
 
-    // Important for the JSON column!
-    protected $casts = [
-        'specs' => 'array',
-    ];
+    public function maintenances()
+    {
+        return $this->hasMany(Maintenance::class);
+    }
 }
