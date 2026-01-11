@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Resource;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,26 +24,66 @@ class ReservationFactory extends Factory
             "Rejected",
             "Completed",
         ]);
+
         $start = fake()->dateTimeBetween("-1 month", "+1 month");
         $end = (clone $start)->modify("+" . rand(1, 14) . " days");
 
         return [
-            "user_id" => \App\Models\User::factory(),
-            "resource_id" => \App\Models\Resource::factory(),
+            // Default associations if none are provided
+            "user_id" => User::factory(),
+            "resource_id" => Resource::factory(),
+
             "start_date" => $start,
             "end_date" => $end,
-            "user_justification" => "Research project: " . fake()->bs(),
+            "user_justification" =>
+                "Project " .
+                strtoupper(fake()->word()) .
+                ": " .
+                fake()->paragraph(2),
             "status" => $status,
-            // Business Logic:
+
             "manager_justification" => match ($status) {
                 "Pending" => null,
                 "Approved",
                 "Completed"
-                    => "Reservation confirmed for requested period.",
-                "Rejected"
-                    => "Rejected: Resource is reserved for higher priority maintenance.",
+                    => "Technical requirements verified. Reservation authorized.",
+                "Rejected" => "Denied: " .
+                    fake()->sentence() .
+                    " (Conflict with " .
+                    fake()->word() .
+                    " window).",
             },
-            "configuration" => ["os" => "Ubuntu 22.04", "backup" => true],
+
+            // DYNAMIC CONFIGURATION LOGIC
+            "configuration" => function (array $attributes) {
+                // Find the resource being assigned to this reservation
+                $resource = Resource::find($attributes["resource_id"]);
+
+                // Base configuration (applies to all)
+                $config = [
+                    "backup_enabled" => fake()->boolean(70),
+                    "monitoring_level" => fake()->randomElement([
+                        "Standard",
+                        "Advanced",
+                    ]),
+                ];
+
+                // Logic: Only add OS if the resource specs allow it
+                if (
+                    $resource &&
+                    isset($resource->specs["allow_os"]) &&
+                    $resource->specs["allow_os"] === true
+                ) {
+                    $config["os"] = fake()->randomElement([
+                        "Ubuntu 22.04 LTS",
+                        "Debian 12",
+                        "CentOS Stream 9",
+                        "Windows Server 2022",
+                    ]);
+                }
+
+                return $config;
+            },
         ];
     }
 }
