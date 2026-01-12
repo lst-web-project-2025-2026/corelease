@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Reservation;
 use App\Models\Setting;
 
+use App\Http\Controllers\AuthController;
+
 Route::get('/', function () {
     $totalResources = Resource::count();
     $activeReservations = Reservation::where('status', 'Approved')
@@ -22,3 +24,10 @@ Route::get('/', function () {
 
     return view('welcome', compact('totalResources', 'availableNow', 'activeUsers', 'systemStatus'));
 });
+
+// Authentication & Application Routes
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/apply', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/apply', [AuthController::class, 'register']);

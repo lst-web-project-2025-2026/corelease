@@ -42,17 +42,15 @@ RUN usermod -l dev ubuntu && \
     echo "dev:dev" | chpasswd && \
     echo "dev ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# Configure Apache: Enable rewrite and change DocumentRoot to /public
+# Configure Apache: Enable rewrite and update site config
 RUN a2enmod rewrite && \
-    sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
-
-# Allow .htaccess overrides
-RUN sed -i '/<Directory \/var\/www\/html\/public>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf || \
-    echo '<Directory /var/www/html/public>\n\
-    Options Indexes FollowSymLinks\n\
-    AllowOverride All\n\
-    Require all granted\n\
-</Directory>' >> /etc/apache2/apache2.conf
+    sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf && \
+    sed -i '/DocumentRoot \/var\/www\/html\/public/a \
+    <Directory /var/www/html/public>\n\
+        Options Indexes FollowSymLinks\n\
+        AllowOverride All\n\
+        Require all granted\n\
+    </Directory>' /etc/apache2/sites-available/000-default.conf
 
 # Run Apache as the 'dev' user to avoid permission headaches
 RUN sed -i 's/export APACHE_RUN_USER=www-data/export APACHE_RUN_USER=dev/' /etc/apache2/envvars && \
