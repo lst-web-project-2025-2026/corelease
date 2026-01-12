@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap");
 
 :root {
     /* Accent Color - HSL for dynamic control */
@@ -8,27 +8,42 @@
     --accent-l: 60%;
 
     --accent-primary: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
-    --accent-secondary: hsl(var(--accent-h), var(--accent-s), calc(var(--accent-l) + 10%));
-    --accent-glow: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.15);
+    --accent-secondary: hsl(
+        var(--accent-h),
+        var(--accent-s),
+        calc(var(--accent-l) + 10%)
+    );
+    --accent-glow: hsla(
+        var(--accent-h),
+        var(--accent-s),
+        var(--accent-l),
+        0.15
+    );
 
     /* Spacing */
     --space-xs: 0.25rem;
+    /* 4px */
     --space-sm: 0.5rem;
+    /* 8px */
     --space-md: 1rem;
+    /* 16px */
     --space-lg: 1.5rem;
+    /* 24px */
     --space-xl: 2rem;
-    --space-2xl: 3rem;
+    /* 32px */
+    --space-2xl: 4rem;
+    /* 64px */
 
     /* Transitions */
     --transition-fast: 0.15s ease;
     --transition-standard: 0.3s ease;
 
     /* Typography */
-    --font-heading: 'Outfit', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --font-heading: "Outfit", sans-serif;
+    --font-body: "Inter", sans-serif;
 
     /* Base Shadows */
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    --glass-shadow: 0 0.5rem 2rem 0 rgba(0, 0, 0, 0.4);
 }
 
 /* Dark Theme (Default) */
@@ -60,13 +75,12 @@
     --border-color: rgba(0, 0, 0, 0.08);
     --glass-bg: rgba(255, 255, 255, 0.7);
     --glass-border: rgba(0, 0, 0, 0.1);
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+    --glass-shadow: 0 0.5rem 2rem 0 rgba(0, 0, 0, 0.05);
 
     --accent-l: 50%;
-    /* Slightly darker for better contrast on light */
 }
 
-/* Semantic Colors remains theme-agnostic or slightly adjusted */
+/* Semantic Colors */
 :root {
     --success: #10b981;
     --warning: #f59e0b;
@@ -79,22 +93,25 @@
 *::before,
 *::after {
     box-sizing: border-box;
-}
-
-* {
     margin: 0;
     padding: 0;
+}
+
+html {
+    font-size: 100%;
 }
 
 body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
     font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.5;
+    font-size: 1rem;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-    transition: background-color var(--transition-standard), color var(--transition-standard);
+    transition:
+        background-color var(--transition-standard),
+        color var(--transition-standard);
 }
 
 h1,
@@ -131,41 +148,16 @@ img {
     display: block;
 }
 
-/* Utilities */
+/* Core Container */
 .container {
-    max-width: 1200px;
+    max-width: 80rem;
     margin: 0 auto;
     padding: 0 var(--space-md);
+    width: 95%;
+    /* Ensure it takes full width on small screens */
 }
 
-.flex {
-    display: flex;
-}
-
-.flex-column {
-    flex-direction: column;
-}
-
-.justify-between {
-    justify-content: space-between;
-}
-
-.align-center {
-    align-items: center;
-}
-
-.gap-sm {
-    gap: var(--space-sm);
-}
-
-.gap-md {
-    gap: var(--space-md);
-}
-
-.gap-lg {
-    gap: var(--space-lg);
-}
-
+/* Global Helpers */
 .text-center {
     text-align: center;
 }
@@ -174,50 +166,11 @@ img {
     color: var(--text-secondary);
 }
 
-.m-t-sm {
-    margin-top: var(--space-sm);
-}
-
-.m-t-xl {
-    margin-top: var(--space-xl);
-}
-
-.m-b-sm {
-    margin-bottom: var(--space-sm);
-}
-
-.m-b-lg {
-    margin-bottom: var(--space-lg);
-}
-
-.p-xl {
-    padding: var(--space-xl);
-}
-
-.grid {
-    display: grid;
-    gap: var(--space-lg);
-}
-
-@media (min-width: 768px) {
-    .grid-2 {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .grid-3 {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .grid-4 {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
 /* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(0.625rem);
     }
 
     to {

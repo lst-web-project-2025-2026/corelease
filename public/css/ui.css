@@ -3,15 +3,18 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.625rem 1.25rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
+  padding: 0.6em 1.25em;
+  border-radius: 0.625rem;
+  font-weight: 600;
   font-family: var(--font-body);
-  font-size: 0.875rem;
-  transition: var(--transition-standard);
-  gap: var(--space-sm);
+  font-size: 0.9375rem;
+  transition: all var(--transition-fast);
+  gap: 0.5em;
   text-align: center;
   border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.2;
 }
 
 .btn:disabled {
@@ -53,8 +56,8 @@
 /* Card Component */
 .card {
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(0.75rem);
+  -webkit-backdrop-filter: blur(0.75rem);
   border: 1px solid var(--glass-border);
   border-radius: 1rem;
   box-shadow: var(--glass-shadow);
@@ -63,7 +66,7 @@
 
 .card:hover {
   border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+  transform: translateY(-0.25rem);
 }
 
 .p-sm {

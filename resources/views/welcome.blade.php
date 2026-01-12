@@ -13,8 +13,8 @@
         <div class="container hero-content animate-fade-in">
             <h1 class="hero-title">High-Performance Computing for Internal Research</h1>
             <p class="hero-subtitle text-secondary">Corelease provides transparent access to data center nodes, virtual machines, and specialized hardware for authorized research groups and personnel.</p>
-            
-            <div class="hero-actions m-t-xl">
+
+            <div class="hero-actions">
                 <x-ui.button href="/apply" class="btn-lg">Request Resource Access</x-ui.button>
                 <x-ui.button href="/catalog" variant="secondary" class="btn-lg">View Available Nodes</x-ui.button>
             </div>
@@ -25,12 +25,12 @@
 
     <!-- Live Status Component -->
     <section class="live-status container">
-        <div class="section-header text-center m-b-lg">
+        <div class="section-header">
             <h2 class="section-title">Global Resource Status</h2>
             <p class="text-secondary">A live overview of our current computational allocation and facility health.</p>
         </div>
 
-        <div class="grid grid-4 animate-fade-in" style="animation-delay: 0.2s">
+        <div class="status-grid animate-fade-in">
             <x-ui.card class="status-card">
                 <div class="status-icon"><i class="icon-server"></i></div>
                 <div class="status-value">{{ $totalResources }}</div>
@@ -58,25 +58,25 @@
     </section>
 
     <!-- Visual Divider -->
-    <div class="divider container m-t-xl"></div>
+    <div class="divider container"></div>
 
     <!-- Features Section / How it Works -->
-    <section class="features container m-t-xl">
-         <div class="grid grid-3">
+    <section class="features container">
+         <div class="features-grid">
              <div class="feature-item">
                  <h3>Open Inventory</h3>
                  <p class="text-secondary">Browse our technical specifications for servers, storage clusters, and network nodes without requiring an initial account.</p>
-                 <a href="/catalog" class="feature-link m-t-sm">Inventory Specs &rarr;</a>
+                 <a href="/catalog" class="feature-link">Inventory Specs &rarr;</a>
              </div>
              <div class="feature-item">
                  <h3>Justified Allocation</h3>
                  <p class="text-secondary">Submit reservation requests with detailed project justifications. Our managers prioritize high-impact research needs.</p>
-                 <a href="/login" class="feature-link m-t-sm">Reserve Capacity &rarr;</a>
+                 <a href="/login" class="feature-link">Reserve Capacity &rarr;</a>
              </div>
              <div class="feature-item">
                  <h3>Status Transparency</h3>
                  <p class="text-secondary">Track your application status and resource availability in real-time through our centralized moderation board.</p>
-                 <a href="/status" class="feature-link m-t-sm">Check Progress &rarr;</a>
+                 <a href="/status" class="feature-link">Check Progress &rarr;</a>
              </div>
          </div>
     </section>

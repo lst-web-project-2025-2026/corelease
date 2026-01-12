@@ -1,6 +1,7 @@
 /* Hero Section */
 .hero {
-  padding: var(--space-2xl) 0 6rem;
+  padding: 6rem 0;
+  /* Expanded padding */
   position: relative;
   text-align: center;
   overflow: hidden;
@@ -8,11 +9,11 @@
 
 .hero-bg-glow {
   position: absolute;
-  top: -100px;
+  top: -6.25rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 600px;
-  height: 400px;
+  width: 37.5rem;
+  height: 25rem;
   background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
   z-index: -1;
   pointer-events: none;
@@ -21,7 +22,8 @@
 .hero-title {
   font-size: clamp(2.5rem, 8vw, 4rem);
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  letter-spacing: -1px;
+  /* Tighter letter spacing for premium look */
   margin-bottom: var(--space-md);
   background: linear-gradient(180deg, #fff 0%, #aaa 100%);
   -webkit-background-clip: text;
@@ -38,25 +40,50 @@
 
 .hero-subtitle {
   font-size: 1.125rem;
-  max-width: 600px;
+  max-width: 40rem;
   margin: 0 auto;
+  color: var(--text-secondary);
 }
 
 .hero-actions {
   display: flex;
   justify-content: center;
   gap: var(--space-md);
+  margin-top: var(--space-xl);
 }
 
 .btn-lg {
-  padding: 0.8rem 2rem;
-  font-size: 1rem;
+  padding: 0.8em 2.5em;
+  font-size: 1.125rem;
 }
 
-/* Live Status Cards */
+/* Live Status Section */
 .live-status {
-  padding: 2rem 0 4rem;
-  /* Adjusted spacing */
+  padding: 4rem 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+}
+
+.status-grid {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: 1fr;
+  animation-delay: 0.2s;
+}
+
+@media (min-width: 35em) {
+  .status-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 64em) {
+  .status-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .status-card {
@@ -85,7 +112,23 @@
   color: var(--error);
 }
 
-/* Feature Items */
+/* Feature Grid */
+.features {
+  padding: 4rem 0;
+}
+
+.features-grid {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 50em) {
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .feature-item {
   padding: var(--space-xl);
   border-radius: 1rem;
@@ -96,7 +139,7 @@
 
 .feature-item:hover {
   border-color: var(--accent-primary);
-  transform: translateY(-5px);
+  transform: translateY(-0.25rem);
 }
 
 .feature-item h3 {
@@ -107,10 +150,16 @@
   display: inline-block;
   color: var(--accent-primary);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
+  margin-top: var(--space-sm);
 }
 
+/* Divider */
 .divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+  background: linear-gradient(90deg,
+      transparent,
+      var(--border-color),
+      transparent);
+  margin: var(--space-xl) auto;
 }
