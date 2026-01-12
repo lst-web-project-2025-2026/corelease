@@ -3,7 +3,7 @@
 @section('title', 'Infrastructure for Research')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/home.css') }}">
 @endsection
 
 @section('content')
