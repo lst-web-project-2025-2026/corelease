@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Models;
 
@@ -9,13 +9,12 @@ class Application extends Model
 {
     use HasFactory;
 
+    protected $table = 'applications'; 
+
     protected $fillable = [
-        "name",
-        "email",
-        "password",
-        "profession",
-        "user_justification",
-        "admin_justification",
-        "status",
+        "name", "email", "password", "profession", 
+        "user_justification", "admin_justification", "status",
     ];
 }
+
+?>
