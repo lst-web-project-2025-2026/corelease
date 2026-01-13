@@ -87,47 +87,59 @@
 
 /* Form Styling */
 .form-group {
-    margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-lg);
 }
 
 .form-label {
-    display: block;
-    margin-bottom: var(--space-xs);
-    font-weight: 500;
-    font-size: 0.875rem;
-    color: var(--text-secondary);
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
 }
 
-.form-input, .form-textarea {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 0.625rem;
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
-    transition: all var(--transition-fast);
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 0.625rem;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  transition: all var(--transition-fast);
 }
 
-.form-input:focus, .form-textarea:focus {
-    outline: none;
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px var(--accent-glow);
-    background: var(--bg-tertiary);
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+  background: var(--bg-tertiary);
 }
 
-.form-input::placeholder, .form-textarea::placeholder {
-    color: var(--text-muted);
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--text-muted);
 }
 
 .form-textarea {
-    resize: vertical;
-    min-height: 8rem;
+  resize: vertical;
+  min-height: 8rem;
 }
 
 .form-error {
-    color: var(--error);
-    font-size: 0.8125rem;
-    margin-top: var(--space-xs);
+  color: var(--error);
+  font-size: 0.8125rem;
+  margin-top: var(--space-xs);
+}
+
+/* User Profile in Navbar */
+
+.user-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  pointer-events: none;
 }

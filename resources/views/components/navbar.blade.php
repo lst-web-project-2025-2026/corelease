@@ -7,7 +7,7 @@
 
         <div class="nav-links">
             <a href="/catalog" class="nav-link">Resource Catalog</a>
-            <a href="/status" class="nav-link">Check Application Status</a>
+            <a href="/#status-checker" class="nav-link">Check Application Status</a>
         </div>
 
         <div class="nav-actions">
@@ -28,7 +28,11 @@
             </div>
 
             @auth
-                <a href="/dashboard" class="nav-link">My Workspace</a>
+                <span class="nav-link user-name">{{ Auth::user()->name }}</span>
+                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                    @csrf
+                    <x-ui.button type="submit" variant="secondary" size="sm">Sign Out</x-ui.button>
+                </form>
             @else
                 <x-ui.button href="/apply" variant="secondary">Request Access</x-ui.button>
                 <x-ui.button href="/login">Login</x-ui.button>

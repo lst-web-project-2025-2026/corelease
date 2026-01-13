@@ -13,7 +13,7 @@
             <ul>
                 <li><a href="/catalog">Resource Catalog</a></li>
                 <li><a href="/maintenance">Maintenance Schedule</a></li>
-                <li><a href="/status">Application Tracker</a></li>
+                <li><a href="/#status-checker">Application Tracker</a></li>
             </ul>
         </div>
 

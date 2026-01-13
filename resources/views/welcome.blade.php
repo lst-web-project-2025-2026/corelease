@@ -11,13 +11,36 @@
     <!-- Hero Section -->
     <header class="hero">
         <div class="container hero-content animate-fade-in">
-            <h1 class="hero-title">High-Performance Computing for Internal Research</h1>
-            <p class="hero-subtitle text-secondary">Corelease provides transparent access to data center nodes, virtual machines, and specialized hardware for authorized research groups and personnel.</p>
+            @if(session('message'))
+                <div class="alert alert-success animate-fade-in" style="margin-bottom: 2rem; padding: 1rem; border-radius: 0.5rem; background: rgba(40, 167, 69, 0.1); color: #28a745; border: 1px solid rgba(40, 167, 69, 0.2); backdrop-filter: blur(10px);">
+                    {{ session('message') }}
+                </div>
+            @endif
 
-            <div class="hero-actions">
-                <x-ui.button href="/apply" class="btn-lg">Request Resource Access</x-ui.button>
-                <x-ui.button href="/catalog" variant="secondary" class="btn-lg">View Available Nodes</x-ui.button>
-            </div>
+            @if(session('error'))
+                <div class="alert alert-error animate-fade-in" style="margin-bottom: 2rem; padding: 1rem; border-radius: 0.5rem; background: rgba(220, 53, 69, 0.1); color: #dc3545; border: 1px solid rgba(220, 53, 69, 0.2); backdrop-filter: blur(10px);">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @auth
+                <h1 class="hero-title">Welcome Back, {{ Auth::user()->name }}</h1>
+                <p class="hero-subtitle text-secondary">
+                    You are logged in as a <strong>{{ Auth::user()->role }}</strong>. 
+                    Manage your resources and reservations from your dashboard.
+                </p>
+                <div class="hero-actions">
+                    <x-ui.button href="/dashboard" class="btn-lg">Go to Dashboard</x-ui.button>
+                </div>
+            @else
+                <h1 class="hero-title">High-Performance Computing for Internal Research</h1>
+                <p class="hero-subtitle text-secondary">Corelease provides transparent access to data center nodes, virtual machines, and specialized hardware for authorized research groups and personnel.</p>
+
+                <div class="hero-actions">
+                    <x-ui.button href="/apply" class="btn-lg">Request Resource Access</x-ui.button>
+                    <x-ui.button href="/catalog" variant="secondary" class="btn-lg">View Available Nodes</x-ui.button>
+                </div>
+            @endauth
         </div>
 
         <div class="hero-bg-glow"></div>
@@ -59,6 +82,72 @@
 
     <!-- Visual Divider -->
     <div class="divider container"></div>
+
+    <!-- Application Status Checker -->
+    @guest
+    <section id="status-checker" class="status-checker container animate-fade-in">
+        <div class="section-header">
+            <h2 class="section-title">Check Application Status</h2>
+            <p class="text-secondary">Already applied? Enter your credentials to see your application progress.</p>
+        </div>
+
+        <div class="status-form">
+            <form action="{{ route('status.check') }}" method="POST">
+                @csrf
+                <x-ui.input 
+                    label="Email Address" 
+                    name="email" 
+                    type="email" 
+                    placeholder="your@email.com" 
+                    required 
+                    value="{{ old('email') }}"
+                />
+                
+                <x-ui.input 
+                    label="Password" 
+                    name="password" 
+                    type="password" 
+                    placeholder="••••••••" 
+                    required 
+                />
+
+                @error('status_email')
+                    <p class="text-error" style="margin-top: -0.5rem; margin-bottom: 1rem; font-size: 0.875rem;">{{ $message }}</p>
+                @enderror
+
+                <x-ui.button type="submit" style="width: 100%;">Check Status</x-ui.button>
+            </form>
+
+            @if(session('status_result'))
+                <div class="status-result animate-slide-up">
+                    <div class="result-header">
+                        <span class="text-secondary">Applied on {{ session('status_result')['created_at'] }}</span>
+                        <span class="result-status status-badge-{{ strtolower(session('status_result')['status']) }}">
+                            {{ session('status_result')['status'] }}
+                        </span>
+                    </div>
+
+                    @if(session('status_result')['status'] === 'Pending')
+                        <p>Your application is currently being reviewed by our administrators. Please check back later.</p>
+                    @elseif(session('status_result')['status'] === 'Approved')
+                        <p class="text-success">Congratulations! Your application has been approved. You can now <a href="/login">login</a> to the system.</p>
+                    @elseif(session('status_result')['status'] === 'Rejected')
+                        <p class="text-error">Unfortunately, your application was not approved at this time.</p>
+                    @endif
+
+                    @if(session('status_result')['admin_justification'])
+                        <div class="justification-box">
+                            <strong>Admin Feedback:</strong>
+                            <p>{{ session('status_result')['admin_justification'] }}</p>
+                        </div>
+                    @endif
+                </div>
+            @endif
+        </div>
+    </section>
+
+    <div class="divider container"></div>
+    @endguest
 
     <!-- Features Section / How it Works -->
     <section class="features container">

@@ -1,4 +1,9 @@
-@props(['label' => null, 'name' => null, 'placeholder' => '', 'required' => false, 'error' => null])
+@props(['label' => null, 'name' => null, 'placeholder' => '', 'required' => false])
+
+@php
+    $error = $name ? $errors->first($name) : null;
+    $finalValue = $name ? old($name, $slot) : $slot;
+@endphp
 
 <div class="form-group {{ $attributes->get('group-class') }}">
     @if($label)
@@ -6,15 +11,15 @@
     @endif
     
     <textarea 
-        id="{{ $name }}" 
+        id="{{ $attributes->get('id', $name) }}" 
         name="{{ $name }}" 
         class="form-textarea @if($error) is-invalid @endif {{ $attributes->get('class') }}"
         placeholder="{{ $placeholder }}"
         {{ $required ? 'required' : '' }}
-        {{ $attributes->except(['label', 'name', 'placeholder', 'required', 'error', 'group-class', 'class']) }}
-    >{{ $slot }}</textarea>
+        {{ $attributes->except(['label', 'name', 'placeholder', 'required', 'group-class', 'class', 'id']) }}
+    >{{ $finalValue }}</textarea>
 
     @if($error)
-        <span class="form-error">{{ $error }}</span>
-    @endif
+        <span class="text-error" style="font-size: 0.8125rem; margin-top: 0.25rem; display: block;">{{ $error }}</span>
+    @php endif @endphp
 </div>
