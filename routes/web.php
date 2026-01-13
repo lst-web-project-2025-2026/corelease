@@ -28,6 +28,8 @@ Route::get('/', function () {
 // Authentication & Application Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/apply', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/apply', [AuthController::class, 'register']);
+Route::post('/check-status', [AuthController::class, 'checkStatus'])->name('status.check');

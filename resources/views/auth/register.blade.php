@@ -93,7 +93,13 @@
 
 @section('scripts')
 <script>
-    let currentStep = 1;
+    // Initialize current step: if there are errors on step 2 fields, start at step 2
+    let currentStep = {{ $errors->has('user_justification') ? 2 : 1 }};
+    
+    // Initial call to set the correct step on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        updateSteps();
+    });
 
     function updateSteps() {
         // Toggle step containers
@@ -139,15 +145,21 @@
     const textarea = document.getElementById('justification-textarea');
     const counter = document.getElementById('char-counter');
 
-    textarea.addEventListener('input', () => {
-        const length = textarea.value.length;
-        counter.textContent = `${length} characters`;
-        
-        if (length < 50) {
-            counter.style.color = 'var(--warning)';
-        } else {
-            counter.style.color = 'var(--text-muted)';
-        }
-    });
+    if (textarea && counter) {
+        const updateCounter = () => {
+            const length = textarea.value.length;
+            counter.textContent = `${length} characters`;
+            
+            if (length < 50) {
+                counter.style.color = 'var(--warning)';
+            } else {
+                counter.style.color = 'var(--text-muted)';
+            }
+        };
+
+        textarea.addEventListener('input', updateCounter);
+        // Initial call to set correct counter on page load
+        updateCounter();
+    }
 </script>
 @endsection
