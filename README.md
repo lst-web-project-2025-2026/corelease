@@ -108,7 +108,7 @@ After modifying the `.env` file and installing dependencies, it is necessary to 
 2.  **Finalize Database Structure**:
     *   Once the terminal is available again, run the migrations:
         ```bash
-        php artisan migrate
+        php artisan migrate:fresh --seed
         ```
 
 ---

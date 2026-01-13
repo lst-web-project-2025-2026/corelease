@@ -1,17 +1,30 @@
 <?php
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Applications; 
-
-use App\Http\Controllers\CatalogController;
-
-use App\Http\Controllers\ApplicationController ;
-
-Route::get('/Catalog', [CatalogController::class, 'index']);
-
 Route::get('/', function () {
-    return view('welcome');
+    $totalResources = Resource::count();
+    $activeReservations = Reservation::where('status', 'Approved')
+        ->where('start_date', '<=', now())
+        ->where('end_date', '>=', now())
+        ->count();
+    
+    $availableNow = $totalResources - $activeReservations;
+    $activeUsers = User::where('is_active', true)->count();
+    
+    $maintenanceSetting = Setting::where('key', 'facility_maintenance')->first();
+    $systemStatus = ($maintenanceSetting && $maintenanceSetting->value == '1') ? 'Maintenance' : 'Operational';
+
+    return view('welcome', compact('totalResources', 'availableNow', 'activeUsers', 'systemStatus'));
 });
+
+// Authentication & Application Routes
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/apply', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/apply', [AuthController::class, 'register']);
+Route::post('/check-status', [AuthController::class, 'checkStatus'])->name('status.check');
 
 
 Route::get('/Applications', [ApplicationController::class, 'create'])->name('applications.create');
