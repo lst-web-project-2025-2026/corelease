@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Reservation;
 use App\Models\Setting;
 
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
@@ -33,3 +34,4 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/apply', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/apply', [AuthController::class, 'register']);
 Route::post('/check-status', [AuthController::class, 'checkStatus'])->name('status.check');
+Route::get('/Catalog', [CatalogController::class, 'index']);
