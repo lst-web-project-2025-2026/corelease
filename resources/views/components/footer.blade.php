@@ -13,7 +13,13 @@
             <ul>
                 <li><a href="/catalog">Resource Catalog</a></li>
                 <li><a href="/maintenance">Maintenance Schedule</a></li>
-                <li><a href="/#status-checker">Application Tracker</a></li>
+                <li>
+                    @auth
+                        <a href="/dashboard">Dashboard</a>
+                    @else
+                        <a href="/#status-checker">Application Tracker</a>
+                    @endauth
+                </li>
             </ul>
         </div>
 
