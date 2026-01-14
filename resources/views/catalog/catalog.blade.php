@@ -3,7 +3,7 @@
 @section('title', 'Resource Catalog')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/catalog.css') }}">
+    @vite(['resources/css/pages/catalog.css'])
 @endsection
 
 @section('content')

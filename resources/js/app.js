@@ -1,1 +1,1 @@
-import './bootstrap';
+console.log("CoreLease JS is loaded!");

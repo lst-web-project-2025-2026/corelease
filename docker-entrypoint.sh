@@ -15,5 +15,21 @@ if [ "$(stat -c '%u' /home/dev)" != "1000" ]; then
     sudo chown -R dev:dev /home/dev
 fi
 
-# 3. Execute the CMD (Apache)
+# 3. Initialize Vite/Node if package.json exists
+if [ -f "package.json" ]; then
+    echo "Initializing Vite Environment..."
+    # Ensure npm is in the path (NVM was installed for 'dev' user)
+    export NVM_DIR="/home/dev/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    
+    # Install dependencies if node_modules is missing
+    if [ ! -d "node_modules" ]; then
+        npm install
+    fi
+    
+    # Start Vite in the background
+    npm run dev -- --host &
+fi
+
+# 4. Execute the CMD (Apache)
 exec "$@"

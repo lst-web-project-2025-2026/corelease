@@ -13,9 +13,7 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('images/logo.svg') }}?v=1">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/ui.css') }}">
+    @vite(['resources/css/global.css', 'resources/css/layout.css', 'resources/css/ui.css'])
     @yield('styles')
 </head>
 <body>
@@ -30,7 +28,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/global.js') }}"></script>
+    @vite(['resources/js/global.js'])
     @yield('scripts')
 </body>
 </html>

@@ -3,7 +3,7 @@
 @section('title', 'Request Access')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/auth.css') }}">
+    @vite(['resources/css/pages/auth.css'])
 @endsection
 
 @section('content')
