@@ -21,6 +21,13 @@
     align-items: center;
 }
 
+.nav-main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5em;
+}
+
 .brand {
     display: flex;
     align-items: center;

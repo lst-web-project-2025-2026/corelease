@@ -1,13 +1,19 @@
 <nav class="navbar">
     <div class="container-navbar">
-        <a href="/" class="brand">
-            <x-ui.logo size="32px" />
-            <span class="brand-name">Corelease</span>
-        </a>
+        <div class="nav-main">
+            <a href="/" class="brand">
+                <x-ui.logo size="32px" />
+                <span class="brand-name">Corelease</span>
+            </a>
 
-        <div class="nav-links">
-            <a href="/catalog" class="nav-link">Resource Catalog</a>
-            <a href="/#status-checker" class="nav-link">Check Application Status</a>
+            <div class="nav-links">
+                <a href="/catalog" class="nav-link">Resource Catalog</a>
+                @auth
+                    <a href="/dashboard" class="nav-link">Dashboard</a>
+                @else
+                    <a href="/#status-checker" class="nav-link">Check Application Status</a>
+                @endauth
+            </div>
         </div>
 
         <div class="nav-actions">
