@@ -13,10 +13,11 @@ return new class extends Migration {
         Schema::create("resources", function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->enum("category", ["Server", "VM", "Storage", "Network"]);
+            $table->foreignId("category_id")->constrained()->onDelete("cascade");
             $table->json("specs"); // Stores CPU, RAM, etc.
             $table->enum("status", ["Enabled", "Disabled"])->default("Enabled");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

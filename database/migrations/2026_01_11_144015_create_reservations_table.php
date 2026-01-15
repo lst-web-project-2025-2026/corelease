@@ -31,7 +31,9 @@ return new class extends Migration {
                     "Completed",
                 ])
                 ->default("Pending");
+            $table->foreignId("decided_by")->nullable()->constrained("users")->onDelete("set null");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -20,11 +20,11 @@
                 <div class="filter-section">
                     <h3 class="filter-title">Filter by Category</h3>
                     <div class="filter-options">
-                        @foreach(['Server', 'VM', 'Storage', 'Network'] as $cat)
+                        @foreach($categories as $category)
                             <label class="filter-checkbox">
-                                <input type="checkbox" name="categories[]" value="{{ $cat }}" 
-                                    {{ (request('categories') && in_array($cat, request('categories'))) || !request()->has('categories') ? 'checked' : '' }}>
-                                <span>{{ $cat === 'VM' ? 'Virtual Machines' : ($cat === 'Server' ? 'Server Nodes' : ($cat === 'Storage' ? 'Storage Clusters' : 'Networking')) }}</span>
+                                <input type="checkbox" name="categories[]" value="{{ $category->name }}" 
+                                    {{ (request('categories') && in_array($category->name, request('categories'))) || !request()->has('categories') ? 'checked' : '' }}>
+                                <span>{{ $category->name === 'VM' ? 'Virtual Machines' : ($category->name === 'Server' ? 'Server Nodes' : ($category->name === 'Storage' ? 'Storage Clusters' : 'Networking')) }}</span>
                             </label>
                         @endforeach
                     </div>
@@ -82,7 +82,7 @@
                     @forelse ($resources as $resource)
                         <x-ui.card class="resource-card">
                             <div class="card-header">
-                                <x-ui.badge variant="primary">{{ $resource->category }}</x-ui.badge>
+                                <x-ui.badge variant="primary">{{ $resource->category->name }}</x-ui.badge>
                                 <x-ui.status status="{{ $resource->status === 'Enabled' ? 'online' : 'offline' }}" />
                             </div>
                             

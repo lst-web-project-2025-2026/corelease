@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reservation extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         "user_id",
@@ -18,7 +19,13 @@ class Reservation extends Model
         "manager_justification",
         "configuration",
         "status",
+        "decided_by",
     ];
+
+    public function decider()
+    {
+        return $this->belongsTo(User::class, "decided_by");
+    }
 
     protected $casts = [
         "configuration" => "array",
