@@ -41,60 +41,85 @@ This document provides an exhaustive, granular blueprint for the DCRMS. It cover
 
 ## 2. Database Schema
 
-### 2.1. `applications` (Account Requests)
+### 2.1. `categories` (Resource Types)
+*   `id`: Primary Key.
+*   `name`: String (e.g., "Server", "VM").
+*   `specs` (JSON): List of required spec keys (e.g., `["cpu", "ram", "os"]`).
+
+### 2.2. `applications` (Account Requests)
 *   `id`: Primary Key.
 *   `name`: Applicant full name.
 *   `email`: Unique email address.
 *   `password`: Hashed password.
-*   `profession`: String (e.g., "AI Researcher").
-*   `user_justification`: Text (Why they need access).
-*   `admin_justification`: Text (Why they were approved/rejected).
+*   `profession`: String.
+*   `user_justification`: Text.
+*   `admin_justification`: Text.
 *   `status`: Enum (`Pending`, `Approved`, `Rejected`).
-*   `timestamps`: `created_at`, `updated_at`.
+*   `decided_by`: Foreign Key (Admin who handled it).
+*   `timestamps`: `created_at`, `updated_at`, `deleted_at` (Soft Delete).
 
-### 2.2. `users` (Active Accounts)
+### 2.3. `users` (Active Accounts)
 *   `id`: Primary Key.
-*   `application_id`: Foreign Key (links back to original request).
+*   `application_id`: Foreign Key.
 *   `name`, `email`, `password`, `profession`.
 *   `role`: Enum (`User`, `Manager`, `Admin`).
-*   `is_active`: Boolean (Default: True).
+*   `is_active`: Boolean.
+*   `timestamps`: `created_at`, `updated_at`, `deleted_at` (Soft Delete).
 
-### 2.3. `resources` (The Inventory)
+### 2.4. `resources` (The Inventory)
 *   `id`: Primary Key.
-*   `name`: String (e.g., "Blade-Server-04").
-*   `category`: Enum (`Server`, `VM`, `Storage`, `Network`).
-*   **`specs` (JSON):** 
-    *   *Fixed:* `{"cpu": "32-Core", "ram": "128GB"}`
-    *   *Configurable:* `{"allow_os": true, "max_storage": "1TB"}`
+*   `category_id`: Foreign Key (to `categories`).
+*   `name`: String.
+*   `specs` (JSON): Key-value pairs matching category requirements.
 *   `status`: Enum (`Enabled`, `Disabled`).
+*   `timestamps`: `created_at`, `updated_at`, `deleted_at` (Soft Delete).
 
-### 2.4. `reservations` (Usage Records)
+### 2.5. `reservations` (Usage Records)
 *   `id`: Primary Key.
 *   `user_id`: Foreign Key.
 *   `resource_id`: Foreign Key.
 *   `start_date`, `end_date`: Datetime.
-*   `user_justification`: Text (Why they need this specific resource).
-*   **`manager_justification`**: Text (Manager's reasoning for approval/rejection).
-*   **`configuration` (JSON):** The user's specific choices (e.g., `{"selected_os": "Ubuntu 22.04"}`).
-*   `status`: Enum (`Pending`, `Approved`, `Rejected`).
+*   `user_justification`: Text.
+*   `manager_justification`: Text.
+*   `decided_by`: Foreign Key (Manager/Admin who handled it).
+*   `configuration` (JSON): User's specific choices.
+*   `status`: Enum (`Pending`, `Approved`, `Rejected`, `Completed`).
+*   `timestamps`: `created_at`, `updated_at`, `deleted_at` (Soft Delete).
 
-### 2.5. `maintenances` (Scheduled Downtime)
+### 2.6. `maintenances` (Scheduled Downtime)
 *   `id`: Primary Key.
 *   `resource_id`: Foreign Key.
+*   `user_id`: Foreign Key (Manager who scheduled it).
 *   `start_date`, `end_date`: Datetime.
-*   `description`: Text (e.g., "Replacing cooling fans").
+*   `description`: Text.
 
-### 2.6. `incidents` (User Reports)
+### 2.7. `incidents` (User Reports)
 *   `id`: Primary Key.
 *   `user_id`: Foreign Key.
 *   `resource_id`: Foreign Key.
-*   `reservation_id`: Foreign Key (Ensures report is linked to an active session).
+*   `reservation_id`: Foreign Key.
 *   `description`: Text.
 *   `status`: Enum (`Open`, `Resolved`).
 
-### 2.7. `settings` (System Config)
-*   `key`: String (e.g., `facility_maintenance`).
-*   `value`: String (e.g., `1` for true).
+### 2.8. `notifications` (In-App Alerts)
+*   `id`: Primary Key.
+*   `user_id`: Foreign Key.
+*   `title`: String.
+*   `content`: Text.
+*   `status`: Enum (`Read`, `Unread`, `Dismissed`).
+*   `timestamps`.
+
+### 2.9. `audit_logs` (System Audit)
+*   `id`: Primary Key.
+*   `auditable_type`, `auditable_id`: Morph relationships.
+*   `user_id`: Foreign Key (Who performed the action).
+*   `event`: String (created, updated, deleted, status_changed).
+*   `old_values`, `new_values`: JSON.
+*   `timestamps`.
+
+### 2.10. `settings` (System Config)
+*   `key`: String.
+*   `value`: String.
 
 ---
 

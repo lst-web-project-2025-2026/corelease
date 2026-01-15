@@ -27,6 +27,7 @@ class ApplicationFactory extends Factory
             "user_justification" =>
                 "I require access for " . fake()->sentence(),
             "status" => $status,
+            "decided_by" => null, // Will be filled in seeder
             // Business Logic:
             "admin_justification" => match ($status) {
                 "Pending" => null,

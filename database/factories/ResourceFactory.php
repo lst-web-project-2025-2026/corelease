@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,14 +17,9 @@ class ResourceFactory extends Factory
      */
     public function definition(): array
     {
-        $category = fake()->randomElement([
-            "Server",
-            "VM",
-            "Storage",
-            "Network",
-        ]);
+        $category = Category::inRandomOrder()->first() ?? Category::factory()->create();
 
-        $specs = match ($category) {
+        $specs = match ($category->name) {
             "VM" => [
                 "cpu" => rand(2, 8) . " vCPU",
                 "ram" => rand(4, 32) . "GB",
@@ -39,14 +35,15 @@ class ResourceFactory extends Factory
                 "type" => "SSD/NVMe",
             ],
             "Network" => ["bandwidth" => "10Gbps", "ports" => 48],
+            default => [],
         };
 
         return [
             "name" =>
-                strtoupper($category) .
+                strtoupper($category->name) .
                 "-" .
                 fake()->unique()->numerify("####"),
-            "category" => $category,
+            "category_id" => $category->id,
             "specs" => $specs,
             "status" => fake()->boolean(99) ? "Enabled" : "Disabled", // ~1% disabled
         ];

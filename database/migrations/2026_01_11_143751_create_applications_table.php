@@ -21,7 +21,13 @@ return new class extends Migration {
             $table
                 ->enum("status", ["Pending", "Approved", "Rejected"])
                 ->default("Pending");
+            $table->foreignId("decided_by")->nullable()->constrained("users")->onDelete("set null");
             $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::table("users", function (Blueprint $table) {
+            $table->foreign("application_id")->references("id")->on("applications")->onDelete("set null");
         });
     }
 
@@ -30,6 +36,9 @@ return new class extends Migration {
      */
     public function down(): void
     {
+        Schema::table("users", function (Blueprint $table) {
+            $table->dropForeign(["application_id"]);
+        });
         Schema::dropIfExists("applications");
     }
 };

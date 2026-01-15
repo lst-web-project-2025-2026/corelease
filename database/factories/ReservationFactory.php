@@ -25,6 +25,13 @@ class ReservationFactory extends Factory
             "Completed",
         ]);
 
+        $decidedBy = null;
+        if ($status !== "Pending") {
+            // This will be overridden in the seeder for better logic,
+            // but for standalone factory use we can just put a placeholder or null
+            $decidedBy = null;
+        }
+
         $start = fake()->dateTimeBetween("-1 month", "+1 month");
         $end = (clone $start)->modify("+" . rand(1, 14) . " days");
 
@@ -41,6 +48,7 @@ class ReservationFactory extends Factory
                 ": " .
                 fake()->paragraph(2),
             "status" => $status,
+            "decided_by" => $decidedBy,
 
             "manager_justification" => match ($status) {
                 "Pending" => null,
