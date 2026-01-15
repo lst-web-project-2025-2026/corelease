@@ -24,7 +24,7 @@
                             <label class="filter-checkbox">
                                 <input type="checkbox" name="categories[]" value="{{ $category->name }}" 
                                     {{ (request('categories') && in_array($category->name, request('categories'))) || !request()->has('categories') ? 'checked' : '' }}>
-                                <span>{{ $category->name === 'VM' ? 'Virtual Machines' : ($category->name === 'Server' ? 'Server Nodes' : ($category->name === 'Storage' ? 'Storage Clusters' : 'Networking')) }}</span>
+                                <span>{{ $category->name }}</span>
                             </label>
                         @endforeach
                     </div>
@@ -33,7 +33,7 @@
                 <div class="filter-section">
                     <h3 class="filter-title">Availability</h3>
                     <div class="filter-options">
-                        @foreach(['Enabled' => 'Online & Available', 'Disabled' => 'Maintenance / Offline'] as $val => $label)
+                        @foreach(['Enabled' => 'Online & Available', 'Maintenance' => 'Under Maintenance', 'Disabled' => 'Manually Disabled'] as $val => $label)
                             <label class="filter-checkbox">
                                 <input type="checkbox" name="statuses[]" value="{{ $val }}"
                                     {{ (request('statuses') && in_array($val, request('statuses'))) || !request()->has('statuses') ? 'checked' : '' }}>
@@ -80,10 +80,10 @@
 
                 <div class="catalog-grid animate-fade-in">
                     @forelse ($resources as $resource)
-                        <x-ui.card class="resource-card">
+                        <x-ui.card class="resource-card {{ $resource->status === 'Disabled' ? 'resource-disabled' : '' }}">
                             <div class="card-header">
                                 <x-ui.badge variant="primary">{{ $resource->category->name }}</x-ui.badge>
-                                <x-ui.status status="{{ $resource->status === 'Enabled' ? 'online' : 'offline' }}" />
+                                <x-ui.status status="{{ $resource->status === 'Enabled' ? 'online' : ($resource->status === 'Maintenance' ? 'warning' : 'offline') }}" />
                             </div>
                             
                             <h3 class="resource-name">{{ $resource->name }}</h3>
@@ -104,15 +104,21 @@
                             </div>
 
                             <div class="card-footer">
-                                @auth
-                                    <x-ui.button href="/reservations/create?resource={{ $resource->id }}" variant="primary" style="width: 100%;">
-                                        Reserve Node
+                                @if($resource->status === 'Disabled')
+                                    <x-ui.button variant="secondary" style="width: 100%; cursor: not-allowed;" disabled>
+                                        Node Offline
                                     </x-ui.button>
                                 @else
-                                    <x-ui.button href="/login" variant="secondary" style="width: 100%;">
-                                        Login to Reserve
-                                    </x-ui.button>
-                                @endauth
+                                    @auth
+                                        <x-ui.button href="/reservations/create?resource={{ $resource->id }}" variant="primary" style="width: 100%;">
+                                            Reserve Node
+                                        </x-ui.button>
+                                    @else
+                                        <x-ui.button href="/login" variant="secondary" style="width: 100%;">
+                                            Login to Reserve
+                                        </x-ui.button>
+                                    @endauth
+                                @endif
                             </div>
                         </x-ui.card>
                     @empty

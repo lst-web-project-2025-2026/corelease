@@ -147,7 +147,7 @@ class DatabaseSeeder extends Seeder
                 'name' => $pool['names'][array_rand($pool['names'])] . " - Unit " . ($i + 1),
                 'category_id' => $category->id,
                 'specs' => $specs,
-                'status' => 'Enabled',
+                'status' => rand(1, 100) <= 5 ? 'Disabled' : 'Enabled',
                 'supervisor_id' => $managers[array_rand($managers)]->id,
             ]);
         }

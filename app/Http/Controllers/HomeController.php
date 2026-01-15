@@ -15,12 +15,12 @@ class HomeController extends Controller
     public function index()
     {
         $totalResources = Resource::count();
-        $activeReservations = Reservation::where('status', 'Approved')
-            ->where('start_date', '<=', now())
-            ->where('end_date', '>=', now())
-            ->count();
+        $activeReservationsCount = Reservation::where('status', 'Active')->count();
+        $maintenanceCount = Resource::where('status', 'Maintenance')->count();
+        $disabledCount = Resource::where('status', 'Disabled')->count();
         
-        $availableNow = $totalResources - $activeReservations;
+        // Available now = Total - (Active Reservations + Maintenance + Disabled)
+        $availableNow = $totalResources - ($activeReservationsCount + $maintenanceCount + $disabledCount);
         $activeUsers = User::where('is_active', true)->count();
         
         $systemStatus = $this->systemService->isSystemLocked() ? 'Maintenance' : 'Operational';

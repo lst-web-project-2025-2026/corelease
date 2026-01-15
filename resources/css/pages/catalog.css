@@ -135,6 +135,16 @@
     height: 100%;
 }
 
+.resource-disabled {
+    filter: grayscale(1) opacity(0.5);
+    pointer-events: none;
+}
+
+.resource-disabled .card-footer {
+    pointer-events: auto;
+    /* Re-enable for the button */
+}
+
 .card-header {
     display: flex;
     justify-content: space-between;

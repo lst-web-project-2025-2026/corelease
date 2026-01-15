@@ -129,8 +129,8 @@ class ReservationService
         }
 
         // Rule 2: Resource Status
-        if (!$bypassDateCheck && $resource->status !== 'Enabled') {
-            throw ValidationException::withMessages(['resource' => "This resource is currently {$resource->status} and cannot be booked."]);
+        if (!$bypassDateCheck && $resource->status === 'Disabled') {
+            throw ValidationException::withMessages(['resource' => "This resource is manually disabled and cannot be booked."]);
         }
 
         // Rule 3: Maintenance Overlaps
