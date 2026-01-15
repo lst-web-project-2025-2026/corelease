@@ -10,7 +10,7 @@ class Resource extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ["name", "category_id", "specs", "status"];
+    protected $fillable = ["name", "category_id", "specs", "status", "supervisor_id"];
 
     protected $casts = [
         "specs" => "array", // Automatically handles JSON conversion
@@ -19,6 +19,11 @@ class Resource extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function supervisor()
+    {
+        return $this->belongsTo(User::class, "supervisor_id");
     }
 
     public function maintenances()
