@@ -71,7 +71,8 @@ This document provides an exhaustive, granular blueprint for the DCRMS. It cover
 *   `category_id`: Foreign Key (to `categories`).
 *   `name`: String.
 *   `specs` (JSON): Key-value pairs matching category requirements.
-*   `status`: Enum (`Enabled`, `Disabled`).
+*   `status`: Enum (`Enabled`, `Disabled`, `Active`).
+*   `supervisor_id`: Foreign Key (to `users`, nullable) - The technical manager in charge.
 *   `timestamps`: `created_at`, `updated_at`, `deleted_at` (Soft Delete).
 
 ### 2.5. `reservations` (Usage Records)
@@ -81,9 +82,9 @@ This document provides an exhaustive, granular blueprint for the DCRMS. It cover
 *   `start_date`, `end_date`: Datetime.
 *   `user_justification`: Text.
 *   `manager_justification`: Text.
-*   `decided_by`: Foreign Key (Manager/Admin who handled it).
+*   `decided_by`: Foreign Key (to `users`, nullable).
 *   `configuration` (JSON): User's specific choices.
-*   `status`: Enum (`Pending`, `Approved`, `Rejected`, `Completed`).
+*   `status`: Enum (`Pending`, `Approved`, `Rejected`, `Active`, `Completed`).
 *   `timestamps`: `created_at`, `updated_at`, `deleted_at` (Soft Delete).
 
 ### 2.6. `maintenances` (Scheduled Downtime)

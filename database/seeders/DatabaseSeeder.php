@@ -59,7 +59,12 @@ class DatabaseSeeder extends Seeder
         $admins[] = User::factory()->admin()->create(['name' => 'Admin Three']);
 
         // 4. Create Resources
-        $resources = Resource::factory(100)->create();
+        $resources = Resource::factory(100)->make();
+        foreach ($resources as $resource) {
+            $resource->supervisor_id = (rand(1, 10) > 7) ? $admins[array_rand($admins)]->id : null;
+            $resource->save();
+        }
+        $resources = Resource::all();
 
         // 5. Create Applications
         $applications = Application::factory(60)->create(['status' => 'Pending', 'decided_by' => null]);
@@ -161,7 +166,7 @@ class DatabaseSeeder extends Seeder
         foreach ($users as $u) {
             $resCount = rand(1, 5);
             for ($i = 0; $i < $resCount; $i++) {
-                $status = fake()->randomElement(['Pending', 'Approved', 'Rejected', 'Completed']);
+                $status = fake()->randomElement(['Pending', 'Approved', 'Rejected', 'Active', 'Completed']);
                 $processor = null;
                 if ($status !== 'Pending') {
                     $processor = $allProcessors[array_rand($allProcessors)];
