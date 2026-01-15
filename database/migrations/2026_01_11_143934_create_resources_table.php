@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string("name");
             $table->foreignId("category_id")->constrained()->onDelete("cascade");
             $table->json("specs"); // Stores CPU, RAM, etc.
-            $table->enum("status", ["Enabled", "Disabled"])->default("Enabled");
+            $table->enum("status", ["Enabled", "Disabled", "Maintenance"])->default("Enabled");
             $table->foreignId("supervisor_id")->nullable()->constrained("users")->onDelete("set null");
             $table->timestamps();
             $table->softDeletes();

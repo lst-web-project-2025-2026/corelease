@@ -29,6 +29,7 @@ return new class extends Migration {
                     "Rejected",
                     "Active",
                     "Completed",
+                    "Expired",
                 ])
                 ->default("Pending");
             $table->foreignId("decided_by")->nullable()->constrained("users")->onDelete("set null");
