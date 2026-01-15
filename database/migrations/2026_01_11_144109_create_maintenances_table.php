@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->dateTime("start_date");
             $table->dateTime("end_date");
             $table->text("description");
+            $table->enum("status", ["Scheduled", "In Progress", "Completed"])->default("Scheduled");
             $table->timestamps();
             $table->softDeletes();
         });

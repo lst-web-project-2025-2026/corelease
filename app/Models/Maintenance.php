@@ -16,19 +16,12 @@ class Maintenance extends Model
         "start_date",
         "end_date",
         "description",
+        "status",
     ];
     protected $casts = ["start_date" => "datetime", "end_date" => "datetime"];
 
-    // Dynamic Status Logic
-    public function getStatusAttribute()
+    public function resource()
     {
-        $now = now();
-        if ($now < $this->start_date) {
-            return "Scheduled";
-        }
-        if ($now->between($this->start_date, $this->end_date)) {
-            return "In Progress";
-        }
-        return "Completed";
+        return $this->belongsTo(Resource::class);
     }
 }

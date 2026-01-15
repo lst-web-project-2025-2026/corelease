@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    protected $applicationService;
+
+    public function __construct(\App\Services\ApplicationService $applicationService)
+    {
+        $this->applicationService = $applicationService;
+    }
+
     /**
      * Show the login form.
      */
@@ -52,36 +59,19 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email|unique:applications,email',
             'password' => 'required|string|min:8',
             'profession' => 'required|string|max:255',
             'user_justification' => 'required|string|min:50',
+        ], [
+            'email.unique' => 'An account or application with this email already exists.'
         ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        // Check if application already exists
-        if (Application::where('email', $request->email)->exists()) {
-            return back()->withErrors(['email' => 'An application with this email already exists.'])->withInput();
-        }
-
-        // Check if user already exists
-        if (User::where('email', $request->email)->exists()) {
-            return back()->withErrors(['email' => 'An account with this email already exists.'])->withInput();
-        }
-
-        Application::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'profession' => $request->profession,
-            'user_justification' => $request->user_justification,
-            'status' => 'Pending',
-        ]);
+        $this->applicationService->submit($request->only([
+            'name', 'email', 'password', 'profession', 'user_justification'
+        ]));
 
         return redirect('/')->with('message', 'Your application has been submitted successfully. You can check its status on the home page using your email and password.');
     }
