@@ -137,6 +137,7 @@
                                             data-id="{{ $resource->id }}"
                                             data-name="{{ $resource->name }}"
                                             data-category="{{ $resource->category->name }}"
+                                            data-allow-os="{{ (isset($resource->specs['allow_os']) && $resource->specs['allow_os']) ? 'true' : 'false' }}"
                                         >
                                             Reserve Node
                                         </x-ui.button>
@@ -205,13 +206,17 @@
             <div id="vm-config-section" style="display: none;">
                 <div class="form-group">
                     <label class="form-label">Requested Operating System</label>
-                    <select name="configuration[os]" class="form-select">
-                        <option value="ubuntu_22_04">Ubuntu 22.04 LTS</option>
-                        <option value="ubuntu_20_04">Ubuntu 20.04 LTS</option>
-                        <option value="debian_11">Debian 11</option>
-                        <option value="centos_8">CentOS 8 Stream</option>
-                        <option value="windows_server_2022">Windows Server 2022</option>
+                    <select name="configuration[os]" class="form-select @error('configuration.os') is-invalid @enderror">
+                        <option value="">-- Select an OS --</option>
+                        <option value="ubuntu_22_04" {{ old('configuration.os') == 'ubuntu_22_04' ? 'selected' : '' }}>Ubuntu 22.04 LTS</option>
+                        <option value="ubuntu_20_04" {{ old('configuration.os') == 'ubuntu_20_04' ? 'selected' : '' }}>Ubuntu 20.04 LTS</option>
+                        <option value="debian_11" {{ old('configuration.os') == 'debian_11' ? 'selected' : '' }}>Debian 11</option>
+                        <option value="centos_8" {{ old('configuration.os') == 'centos_8' ? 'selected' : '' }}>CentOS 8 Stream</option>
+                        <option value="windows_server_2022" {{ old('configuration.os') == 'windows_server_2022' ? 'selected' : '' }}>Windows Server 2022</option>
                     </select>
+                    @error('configuration.os')
+                        <span class="form-error">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
@@ -240,6 +245,7 @@
                     const resourceId = this.getAttribute('data-id');
                     const resourceName = this.getAttribute('data-name');
                     const categoryName = this.getAttribute('data-category');
+                    const allowOs = this.getAttribute('data-allow-os') === 'true';
                     
                     // Clear previous errors if we're opening for a NEW resource
                     const errorAlert = document.querySelector('#reservation-modal .alert-error');
@@ -250,7 +256,8 @@
                     openReservationModal({
                         id: resourceId,
                         name: resourceName,
-                        category_name: categoryName
+                        category_name: categoryName,
+                        allow_os: allowOs
                     });
                 });
             });
@@ -280,7 +287,8 @@
                     openReservationModal({
                         id: oldResourceId,
                         name: oldResourceName || 'Selected Resource',
-                        category_name: oldCategory
+                        category_name: oldCategory,
+                        allow_os: oldCategory === 'Virtual Machine' // Fallback for auto-open
                     });
                 }
             @endif
@@ -295,7 +303,7 @@
             
             // Check if it's a VM to show OS config
             const vmSection = document.getElementById('vm-config-section');
-            if (resource.category_name === 'VM') {
+            if (resource.allow_os) {
                 vmSection.style.display = 'block';
             } else {
                 vmSection.style.display = 'none';

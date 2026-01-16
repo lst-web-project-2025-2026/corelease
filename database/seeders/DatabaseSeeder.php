@@ -41,8 +41,8 @@ class DatabaseSeeder extends Seeder
 
         // 3. Create Categories
         $categories = [
-            'Rack Server' => ['CPU Processor', 'Physical RAM', 'Storage Capacity', 'Rack Location'],
-            'Virtual Machine' => ['vCPU Cores', 'Memory (GB)', 'OS Distribution', 'Disk Quota'],
+            'Rack Server' => ['CPU Processor', 'Physical RAM', 'Storage Capacity', 'Rack Location', 'Operating System'],
+            'Virtual Machine' => ['vCPU Cores', 'Memory (GB)', 'Disk Quota', 'allow_os'],
             'Cloud Storage' => ['S3 Bucket Size', 'Storage Type', 'Target IOPS'],
             'Network Switch' => ['Throughput', 'Port Density'],
         ];
@@ -104,11 +104,11 @@ class DatabaseSeeder extends Seeder
                 'names' => ['Dell PowerEdge R750', 'HPE ProLiant DL380', 'Lenovo ThinkSystem SR650'],
                 'cpus' => ['2x Intel Xeon Gold 6330', '2x AMD EPYC 7763', '2x Intel Xeon Platinum 8380'],
                 'rams' => ['512GB DDR4', '1TB DDR4', '256GB DDR4'],
-                'storage' => ['3.84TB NVMe SSD', '7.68TB SAS SSD', '15.36TB HDD Array']
+                'storage' => ['3.84TB NVMe SSD', '7.68TB SAS SSD', '15.36TB HDD Array'],
+                'os' => ['RHEL 9.2', 'Windows Server 2022', 'Ubuntu 22.04 LTS', 'VMware ESXi']
             ],
             'Virtual Machine' => [
                 'names' => ['Compute-Inst', 'Worker-Node', 'DB-Cluster-Member'],
-                'os' => ['RHEL 9.2', 'Windows Server 2022', 'Ubuntu 22.04 LTS', 'Debian 12']
             ],
             'Cloud Storage' => [
                 'names' => ['Primary-Bucket', 'Backup-Vault', 'Media-Assets'],
@@ -134,7 +134,8 @@ class DatabaseSeeder extends Seeder
                     'Memory (GB)' => fake()->randomElement([32, 64, 128, 256, 512]),
                     'Storage Capacity', 'Disk Quota', 'S3 Bucket Size' => rand(100, 50000) . ' GB',
                     'Rack Location' => 'DC-01-A' . rand(1, 9) . '-U' . rand(1, 42),
-                    'OS Distribution' => $pool['os'][array_rand($pool['os'])],
+                    'Operating System' => $pool['os'][array_rand($pool['os'])],
+                    'allow_os' => true,
                     'Storage Type' => $pool['types'][array_rand($pool['types'])],
                     'Target IOPS' => rand(1000, 500000),
                     'Throughput' => rand(10, 800) . ' Gbps',

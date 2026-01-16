@@ -37,8 +37,13 @@ class ReservationController extends Controller
                 return ($d && $d->format('Y-m-d') === $str) ? \Carbon\Carbon::instance($d) : null;
             };
 
-            $start = $safeParse($startStr);
-            $end = $safeParse($endStr);
+            $resourceId = $request->input('resource_id');
+            $resource = $resourceId ? \App\Models\Resource::find($resourceId) : null;
+            $allowOs = $resource && isset($resource->specs['allow_os']) && $resource->specs['allow_os'];
+
+            if ($allowOs && !$request->input('configuration.os')) {
+                $validator->errors()->add('configuration.os', 'Please select an operating system for this resource.');
+            }
 
             if ($startStr && !$start) {
                 $validator->errors()->add('start_date', 'The start date is not a valid date.');
