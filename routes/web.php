@@ -10,6 +10,7 @@ use App\Models\Setting;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MaintenanceController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -24,6 +25,7 @@ Route::post('/check-status', [AuthController::class, 'checkStatus'])->name('stat
 
 // Resource Catalog
 Route::get('/catalog', [CatalogController::class, 'browse'])->name('catalog.index');
+Route::get('/maintenance', [MaintenanceController::class, 'schedule'])->name('maintenance.schedule');
 
 // Reservations (Authenticated)
 Route::middleware('auth')->group(function () {

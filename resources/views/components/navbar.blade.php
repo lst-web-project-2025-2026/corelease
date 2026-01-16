@@ -8,6 +8,7 @@
 
             <div class="nav-links">
                 <a href="/catalog" class="nav-link">Resource Catalog</a>
+                <a href="/maintenance" class="nav-link">Maintenance Schedule</a>
                 @auth
                     <a href="/dashboard" class="nav-link">Dashboard</a>
                 @else
