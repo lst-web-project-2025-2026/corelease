@@ -8,17 +8,13 @@
     --accent-l: 60%;
 
     --accent-primary: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
-    --accent-secondary: hsl(
-        var(--accent-h),
-        var(--accent-s),
-        calc(var(--accent-l) + 10%)
-    );
-    --accent-glow: hsla(
-        var(--accent-h),
-        var(--accent-s),
-        var(--accent-l),
-        0.15
-    );
+    --accent-secondary: hsl(var(--accent-h),
+            var(--accent-s),
+            calc(var(--accent-l) + 10%));
+    --accent-glow: hsla(var(--accent-h),
+            var(--accent-s),
+            var(--accent-l),
+            0.15);
 
     /* Spacing */
     --space-xs: 0.25rem;
@@ -164,6 +160,10 @@ img {
 
 .text-secondary {
     color: var(--text-secondary);
+}
+
+.text-muted {
+    color: var(--text-muted);
 }
 
 /* Animations */

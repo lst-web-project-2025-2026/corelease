@@ -24,3 +24,8 @@ Route::post('/check-status', [AuthController::class, 'checkStatus'])->name('stat
 
 // Resource Catalog
 Route::get('/catalog', [CatalogController::class, 'browse'])->name('catalog.index');
+
+// Reservations (Authenticated)
+Route::middleware('auth')->group(function () {
+    Route::post('/reservations', [\App\Http\Controllers\ReservationController::class, 'store'])->name('reservations.store');
+});

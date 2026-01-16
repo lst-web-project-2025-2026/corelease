@@ -185,8 +185,8 @@ class DatabaseSeeder extends Seeder
             // 1 Past (Completed)
             $maintenanceService->schedule($m, [
                 'resource_id' => $res->id,
-                'start_date' => now()->subDays(rand(30, 60)),
-                'end_date' => now()->subDays(rand(20, 29)),
+                'start_date' => now()->subDays(rand(30, 60))->format('Y-m-d'),
+                'end_date' => now()->subDays(rand(20, 29))->format('Y-m-d'),
                 'description' => 'Periodic cooling system inspection and dust removal.',
                 'status' => 'Completed',
             ]);
@@ -195,8 +195,8 @@ class DatabaseSeeder extends Seeder
             $recentStatus = rand(1, 10) > 7 ? 'In Progress' : 'Completed';
             $maintenanceService->schedule($m, [
                 'resource_id' => $res->id,
-                'start_date' => now()->subDays(rand(1, 5)),
-                'end_date' => $recentStatus === 'Completed' ? now()->subDay() : now()->addDays(rand(1, 3)),
+                'start_date' => now()->subDays(rand(1, 5))->format('Y-m-d'),
+                'end_date' => $recentStatus === 'Completed' ? now()->subDay()->format('Y-m-d') : now()->addDays(rand(1, 3))->format('Y-m-d'),
                 'description' => 'Firmware update for critical security advisory.',
                 'status' => $recentStatus,
             ]);
@@ -204,8 +204,8 @@ class DatabaseSeeder extends Seeder
             // 1 Future
             $maintenanceService->schedule($m, [
                 'resource_id' => $res->id,
-                'start_date' => now()->addDays(rand(10, 40)),
-                'end_date' => now()->addDays(rand(41, 45)),
+                'start_date' => now()->addDays(rand(10, 40))->format('Y-m-d'),
+                'end_date' => now()->addDays(rand(41, 45))->format('Y-m-d'),
                 'description' => 'Scheduled UPS battery replacement in the rack zone.',
                 'status' => 'Scheduled',
             ]);
@@ -227,8 +227,8 @@ class DatabaseSeeder extends Seeder
 
                     $res = $reservationService->create($u, [
                         'resource_id' => $resource->id,
-                        'start_date' => $start,
-                        'end_date' => $end,
+                        'start_date' => $start->format('Y-m-d'),
+                        'end_date' => $end->format('Y-m-d'),
                         'user_justification' => 'Historical simulation data for research and testing.',
                         'configuration' => $resource->category->name === 'Virtual Machine' ? ['os' => 'Ubuntu 22.04 LTS'] : [],
                         'status' => 'Pending',
@@ -277,8 +277,8 @@ class DatabaseSeeder extends Seeder
                         
                         if (rand(1, 10) > 4) {
                             $incidentService->resolveViaMaintenance($incident, [
-                                'start_date' => $res->start_date->copy()->addHour(),
-                                'end_date' => $res->start_date->copy()->addHours(3),
+                                'start_date' => $res->start_date->format('Y-m-d'),
+                                'end_date' => $res->start_date->format('Y-m-d'),
                                 'description' => 'Fixed hardware issue reported in incident.',
                             ], $managers[array_rand($managers)]);
                         }

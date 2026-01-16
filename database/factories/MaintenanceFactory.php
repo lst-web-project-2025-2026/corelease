@@ -18,11 +18,11 @@ class MaintenanceFactory extends Factory
     {
         // Generate logical dates
         $start = fake()->dateTimeBetween("-2 weeks", "+2 weeks");
-        $end = (clone $start)->modify("+" . rand(4, 72) . " hours");
+        $end = (clone $start)->modify("+" . rand(1, 3) . " days");
 
         return [
-            "start_date" => $start,
-            "end_date" => $end,
+            "start_date" => $start->format("Y-m-d"),
+            "end_date" => $end->format("Y-m-d"),
             "description" => "Routine maintenance: " . fake()->bs(),
         ];
     }

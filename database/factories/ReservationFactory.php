@@ -40,8 +40,8 @@ class ReservationFactory extends Factory
             "user_id" => User::factory(),
             "resource_id" => Resource::factory(),
 
-            "start_date" => $start,
-            "end_date" => $end,
+            "start_date" => $start->format("Y-m-d"),
+            "end_date" => $end->format("Y-m-d"),
             "user_justification" =>
                 "Project " .
                 strtoupper(fake()->word()) .
