@@ -17,8 +17,8 @@ return new class extends Migration {
                 ->foreignId("resource_id")
                 ->constrained()
                 ->onDelete("cascade");
-            $table->dateTime("start_date");
-            $table->dateTime("end_date");
+            $table->date("start_date");
+            $table->date("end_date");
             $table->text("user_justification");
             $table->text("manager_justification")->nullable();
             $table->json("configuration")->nullable(); // User's specific choices (OS, etc.)

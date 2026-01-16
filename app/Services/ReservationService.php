@@ -25,8 +25,17 @@ class ReservationService
     {
         return DB::transaction(function () use ($user, $data, $bypassDateCheck) {
             $resource = Resource::findOrFail($data['resource_id']);
-            $startDate = Carbon::parse($data['start_date']);
-            $endDate = Carbon::parse($data['end_date']);
+            
+            $parse = fn($s) => ($d = \DateTime::createFromFormat('Y-m-d', $s)) && $d->format('Y-m-d') === $s ? Carbon::instance($d) : null;
+            
+            $startDate = $parse($data['start_date'])?->startOfDay();
+            $endDate = $parse($data['end_date'])?->endOfDay();
+
+            if (!$startDate || !$endDate) {
+                throw ValidationException::withMessages([
+                    'start_date' => 'The provided date format is invalid.'
+                ]);
+            }
 
             // 1. Check Conflicts
             $this->validateConflict($resource, $startDate, $endDate, null, $bypassDateCheck);

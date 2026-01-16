@@ -29,8 +29,8 @@ class Reservation extends Model
 
     protected $casts = [
         "configuration" => "array",
-        "start_date" => "datetime",
-        "end_date" => "datetime",
+        "start_date" => "date",
+        "end_date" => "date",
     ];
 
     public function user()

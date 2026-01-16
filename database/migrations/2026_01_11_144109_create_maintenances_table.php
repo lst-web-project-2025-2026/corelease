@@ -17,8 +17,8 @@ return new class extends Migration {
                 ->constrained()
                 ->onDelete("cascade");
             $table->foreignId("user_id")->constrained(); // Manager/Admin who created it
-            $table->dateTime("start_date");
-            $table->dateTime("end_date");
+            $table->date("start_date");
+            $table->date("end_date");
             $table->text("description");
             $table->enum("status", ["Scheduled", "In Progress", "Completed"])->default("Scheduled");
             $table->timestamps();
